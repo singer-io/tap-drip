@@ -1,0 +1,253 @@
+{
+    "tap_name": "drip",
+    "required_config_keys": [
+        "api_token",
+        "start_date"
+    ],
+    "page_size": 100,
+    "next_page_key": "",
+    "pagination_key": "page",
+    "headers": {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+    },
+    "params": {},
+    "base_url": "https://api.getdrip.com/v2",
+    "streams": [
+        {
+            "name": "accounts",
+            "key_properties": [
+                "id"
+            ],
+            "replication_method": "FULL_TABLE",
+            "replication_keys": null,
+            "data_key": "accounts",
+            "path": "accounts",
+            "parent": null,
+            "children": [
+                "conversions",
+                "custom_field_identifiers",
+                "email_series_campaigns",
+                "event_actions",
+                "forms",
+                "single_email_campaigns",
+                "peoples",
+                "tags",
+                "workflows"
+            ],
+            "doc_link": "https://developer.drip.com/?shell#list-all-accounts"
+        },
+        {
+            "name": "conversions",
+            "key_properties": [
+                "id",
+                "account_id"
+            ],
+            "replication_method": "FULL_TABLE",
+            "replication_keys": null,
+            "data_key": "goals",
+            "path": "{account_id}/goals",
+            "parent": "accounts",
+            "children": [],
+            "doc_link": "https://developer.drip.com/?shell#list-all-conversions"
+        },
+        {
+            "name": "custom_field_identifiers",
+            "key_properties": [
+                "id",
+                "account_id"
+            ],
+            "replication_method": "FULL_TABLE",
+            "replication_keys": null,
+            "data_key": "custom_field_identifiers",
+            "path": "{account_id}/custom_field_identifiers",
+            "parent": "accounts",
+            "children": [],
+            "doc_link": "https://developer.drip.com/?shell#list-all-custom-field-identifiers-used-in-an-account"
+        },
+        {
+            "name": "email_series_campaigns",
+            "key_properties": [
+                "id",
+                "account_id"
+            ],
+            "replication_method": "FULL_TABLE",
+            "replication_keys": null,
+            "data_key": "campaigns",
+            "path": "{account_id}/campaigns",
+            "parent": "accounts",
+            "children": [
+                "email_series_subscriber_active",
+                "email_series_subscriber_removed",
+                "email_series_subscriber_unsubscribed"
+            ],
+            "doc_link": "https://developer.drip.com/?shell#list-all-email-series-campaigns"
+        },
+        {
+            "name": "email_series_subscriber_active",
+            "key_properties": [
+                "id",
+                "account_id",
+                "campaign_id"
+            ],
+            "replication_method": "FULL_TABLE",
+            "replication_keys": null,
+            "data_key": "subscribers",
+            "path": "{account_id}/campaigns/{campaign_id}/subscribers",
+            "parent": "email_series_campaigns",
+            "children": [],
+            "doc_link": "https://developer.drip.com/?shell#list-all-subscribers-subscribed-to-an-email-series-campaign"
+        },
+        {
+            "name": "email_series_subscriber_removed",
+            "key_properties": [
+                "id",
+                "account_id",
+                "campaign_id"
+            ],
+            "replication_method": "FULL_TABLE",
+            "replication_keys": null,
+            "data_key": "subscribers",
+            "path": "{account_id}/campaigns/{campaign_id}/subscribers",
+            "parent": "email_series_campaigns",
+            "children": [],
+            "doc_link": "https://developer.drip.com/?shell#list-all-subscribers-subscribed-to-an-email-series-campaign"
+        },
+        {
+            "name": "email_series_subscriber_unsubscribed",
+            "key_properties": [
+                "id",
+                "account_id",
+                "campaign_id"
+            ],
+            "replication_method": "FULL_TABLE",
+            "replication_keys": null,
+            "data_key": "subscribers",
+            "path": "{account_id}/campaigns/{campaign_id}/subscribers",
+            "parent": "email_series_campaigns",
+            "children": [],
+            "doc_link": "https://developer.drip.com/?shell#list-all-subscribers-subscribed-to-an-email-series-campaign"
+        },
+        {
+            "name": "event_actions",
+            "key_properties": [
+                "event_action",
+                "account_id"
+            ],
+            "replication_method": "FULL_TABLE",
+            "replication_keys": null,
+            "data_key": "event_actions",
+            "path": "{account_id}/event_actions",
+            "parent": "accounts",
+            "children": [],
+            "doc_link": "https://developer.drip.com/?shell#list-all-custom-events-actions-used-in-an-account"
+        },
+        {
+            "name": "forms",
+            "key_properties": [
+                "id",
+                "account_id"
+            ],
+            "replication_method": "FULL_TABLE",
+            "replication_keys": null,
+            "data_key": "forms",
+            "path": "{account_id}/forms",
+            "parent": "accounts",
+            "children": [],
+            "doc_link": "https://developer.drip.com/?shell#list-all-forms"
+        },
+        {
+            "name": "single_email_campaigns",
+            "key_properties": [
+                "id",
+                "account_id"
+            ],
+            "replication_method": "FULL_TABLE",
+            "replication_keys": null,
+            "data_key": "broadcasts",
+            "path": "{account_id}/broadcasts",
+            "parent": "accounts",
+            "children": [],
+            "doc_link": "https://developer.drip.com/?shell#list-all-single-email-campaigns"
+        },
+        {
+            "name": "peoples",
+            "key_properties": [
+                "id",
+                "account_id"
+            ],
+            "replication_method": "FULL_TABLE",
+            "replication_keys": null,
+            "data_key": "subscribers",
+            "path": "{account_id}/subscribers",
+            "parent": "accounts",
+            "children": [],
+            "doc_link": "https://developer.drip.com/?shell#list-all-subscribers"
+        },
+        {
+            "name": "tags",
+            "key_properties": [
+                "tag_name",
+                "account_id"
+            ],
+            "replication_method": "FULL_TABLE",
+            "replication_keys": null,
+            "data_key": "tags",
+            "path": "{account_id}/tags",
+            "parent": "accounts",
+            "children": [],
+            "doc_link": "https://developer.drip.com/?shell#list-all-tags-used-in-an-account"
+        },
+        {
+            "name": "users",
+            "key_properties": [
+                "email"
+            ],
+            "replication_method": "FULL_TABLE",
+            "replication_keys": null,
+            "data_key": "users",
+            "path": "user",
+            "parent": null,
+            "children": [],
+            "doc_link": "https://developer.drip.com/?shell#users"
+        },
+        {
+            "name": "workflows",
+            "key_properties": [
+                "id",
+                "account_id"
+            ],
+            "replication_method": "FULL_TABLE",
+            "replication_keys": null,
+            "data_key": "workflows",
+            "path": "{account_id}/workflows",
+            "parent": "accounts",
+            "children": ["workflow_triggers"],
+            "doc_link": "https://developer.drip.com/?shell#list-all-workflows"
+        },
+        {
+            "name": "workflow_triggers",
+            "key_properties": [
+                "id",
+                "account_id",
+                "workflow_id"
+            ],
+            "replication_method": "FULL_TABLE",
+            "replication_keys": null,
+            "data_key": "triggers",
+            "path": "{account_id}/workflows/{workflow_id}/triggers",
+            "parent": "workflows",
+            "children": [],
+            "doc_link": "https://developer.drip.com/?shell#list-all-workflow-triggers"
+        }
+    ],
+    "tap_tester_creds": {
+        "api_token": "API_TOKEN"
+    },
+    "author": "Stitch",
+    "third_party_dependencies": [
+        "singer-python==6.3.0",
+        "requests==2.32.5",
+        "backoff==2.2.1"
+    ]
+}
