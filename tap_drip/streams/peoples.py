@@ -1,9 +1,17 @@
-from tap_drip.streams.abstracts import FullTableStream
+from tap_drip.streams.abstracts import ChildFullTableStream
 
-class Peoples(FullTableStream):
+class Peoples(ChildFullTableStream):
     tap_stream_id = "peoples"
     key_properties = ["id", "account_id"]
     replication_method = "FULL_TABLE"
     data_key = "subscribers"
-    path = "{account_id}/subscribers"
+    path = "{}/subscribers"
     parent = "accounts"
+
+    def update_params(self, **kwargs):
+        """
+        This method overrides the parent class's update_params method to specifically
+        filter for subscribers with an 'all' status.
+        """
+        kwargs["status"] = "all"
+        return super().update_params(**kwargs)
