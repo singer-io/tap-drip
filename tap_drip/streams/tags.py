@@ -2,7 +2,7 @@ from tap_drip.streams.abstracts import ChildFullTableStream
 
 class Tags(ChildFullTableStream):
     tap_stream_id = "tags"
-    key_properties = ["tag_name", "account_id"]
+    key_properties = ["tag_id", "account_id"]
     replication_method = "FULL_TABLE"
     data_key = "tags"
     path = "{}/tags"

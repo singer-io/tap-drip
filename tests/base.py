@@ -50,7 +50,7 @@ class dripBaseTest(BaseCase):
                 cls.PARENT_TAP_STREAM_ID: "accounts"
             },
             "custom_field_identifiers": {
-                cls.PRIMARY_KEYS: { "id", "account_id" },
+                cls.PRIMARY_KEYS: { "custom_field_id", "account_id" },
                 cls.REPLICATION_METHOD: cls.FULL_TABLE,
                 cls.REPLICATION_KEYS: set(),
                 cls.OBEYS_START_DATE: False,
@@ -122,7 +122,7 @@ class dripBaseTest(BaseCase):
                 cls.PARENT_TAP_STREAM_ID: "accounts"
             },
             "tags": {
-                cls.PRIMARY_KEYS: { "tag_name", "account_id" },
+                cls.PRIMARY_KEYS: { "tag_id", "account_id" },
                 cls.REPLICATION_METHOD: cls.FULL_TABLE,
                 cls.REPLICATION_KEYS: set(),
                 cls.OBEYS_START_DATE: False,

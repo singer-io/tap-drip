@@ -2,7 +2,7 @@ from tap_drip.streams.abstracts import ChildFullTableStream
 
 class CustomFieldIdentifiers(ChildFullTableStream):
     tap_stream_id = "custom_field_identifiers"
-    key_properties = ["id", "account_id"]
+    key_properties = ["custom_field_id", "account_id"]
     replication_method = "FULL_TABLE"
     data_key = "custom_field_identifiers"
     path = "{}/custom_field_identifiers"
