@@ -330,5 +330,5 @@ class ChildFullTableStream(FullTableStream):
             if 'id' in parent_record:
                 record['account_id'] = parent_record.get('id')
             else:
-                record['account_id'] = None
+                LOGGER.warning("Parent record missing 'id'; 'account_id' not set in child record.")
         return record
