@@ -1,7 +1,7 @@
 from tap_drip.streams.abstracts import ChildFullTableStream
 
-class Peoples(ChildFullTableStream):
-    tap_stream_id = "peoples"
+class People(ChildFullTableStream):
+    tap_stream_id = "people"
     key_properties = ["id", "account_id"]
     replication_method = "FULL_TABLE"
     data_key = "subscribers"

@@ -171,7 +171,7 @@
             "doc_link": "https://developer.drip.com/?shell#list-all-single-email-campaigns"
         },
         {
-            "name": "peoples",
+            "name": "people",
             "key_properties": [
                 "id",
                 "account_id"

@@ -326,9 +326,11 @@ class ChildFullTableStream(FullTableStream):
 
     def modify_object(self, record: Dict, parent_record: Dict = None) -> Dict:
         """Add account_id from parent to the record."""
-        if parent_record:
-            if 'id' in parent_record:
-                record['account_id'] = parent_record.get('id')
-            else:
-                LOGGER.warning("Parent record missing 'id'; 'account_id' not set in child record.")
+        if not parent_record:
+            raise ValueError("Child stream requires parent_record but received None")
+
+        if 'id' not in parent_record:
+            raise ValueError(f"Parent record missing required 'id' field: {parent_record}")
+
+        record['account_id'] = parent_record['id']
         return record

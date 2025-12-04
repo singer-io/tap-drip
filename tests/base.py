@@ -113,7 +113,7 @@ class dripBaseTest(BaseCase):
                 cls.API_LIMIT: 100,
                 cls.PARENT_TAP_STREAM_ID: "accounts"
             },
-            "peoples": {
+            "people": {
                 cls.PRIMARY_KEYS: { "id", "account_id" },
                 cls.REPLICATION_METHOD: cls.FULL_TABLE,
                 cls.REPLICATION_KEYS: set(),
