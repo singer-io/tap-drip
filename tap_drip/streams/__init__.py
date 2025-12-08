@@ -8,7 +8,7 @@ from tap_drip.streams.email_series_subscriber_unsubscribed import EmailSeriesSub
 from tap_drip.streams.event_actions import EventActions
 from tap_drip.streams.forms import Forms
 from tap_drip.streams.single_email_campaigns import SingleEmailCampaigns
-from tap_drip.streams.peoples import Peoples
+from tap_drip.streams.people import People
 from tap_drip.streams.tags import Tags
 from tap_drip.streams.users import Users
 from tap_drip.streams.workflows import Workflows
@@ -25,7 +25,7 @@ STREAMS = {
     "event_actions": EventActions,
     "forms": Forms,
     "single_email_campaigns": SingleEmailCampaigns,
-    "peoples": Peoples,
+    "people": People,
     "tags": Tags,
     "users": Users,
     "workflows": Workflows,

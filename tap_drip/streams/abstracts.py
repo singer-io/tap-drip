@@ -35,7 +35,8 @@ class BaseStream(ABC):
     parent = ""
     data_key = ""
     parent_bookmark_key = ""
-    http_method = "POST"
+    http_method = "GET"
+    bookmark_value = None
 
     def __init__(self, client=None, catalog=None) -> None:
         self.client = client
@@ -99,9 +100,12 @@ class BaseStream(ABC):
 
     def get_records(self) -> Iterator:
         """Interacts with api client interaction and pagination."""
-        self.params["page"] = self.page_size
-        next_page = 1
-        while next_page:
+        current_page = 1
+        has_more_pages = True
+
+        while has_more_pages:
+            self.params["page"] = current_page
+
             response = self.client.make_request(
                 self.http_method,
                 self.url_endpoint,
@@ -111,10 +115,22 @@ class BaseStream(ABC):
                 path=self.path
             )
             raw_records = response.get(self.data_key, [])
-            next_page = response.get(self.next_page_key)
-
-            self.params[self.next_page_key] = next_page
             yield from raw_records
+
+            # Handle meta-based pagination
+            meta = response.get("meta", {})
+            if meta:
+                total_pages = meta.get("total_pages")
+                count = meta.get("count", 0)
+
+                if total_pages is not None:
+                    has_more_pages = current_page < total_pages
+                else:
+                    has_more_pages = count > 0 and count >= self.page_size
+
+                current_page += 1
+            else:
+                has_more_pages = False
 
     def write_schema(self) -> None:
         """
@@ -231,8 +247,10 @@ class FullTableStream(BaseStream):
         """Abstract implementation for `type: Fulltable` stream."""
         self.url_endpoint = self.get_url_endpoint(parent_obj)
         self.update_data_payload(parent_obj=parent_obj)
+        self.update_params()
         with metrics.record_counter(self.tap_stream_id) as counter:
             for record in self.get_records():
+                record = self.modify_object(record, parent_obj)
                 transformed_record = transformer.transform(
                     record, self.schema, self.metadata
                 )
@@ -299,3 +317,20 @@ class ChildBaseStream(IncrementalStream):
             self.bookmark_value = super().get_bookmark(state, stream)
 
         return self.bookmark_value
+
+class ChildFullTableStream(FullTableStream):
+    """Base Class for FullTable Child Stream."""
+    def get_url_endpoint(self, parent_obj=None):
+        """Prepare URL endpoint for child streams."""
+        return f"{self.client.base_url}/{self.path.format(parent_obj['id'])}"
+
+    def modify_object(self, record: Dict, parent_record: Dict = None) -> Dict:
+        """Add account_id from parent to the record."""
+        if not parent_record:
+            raise ValueError("Child stream requires parent_record but received None")
+
+        if 'id' not in parent_record:
+            raise ValueError(f"Parent record missing required 'id' field: {parent_record}")
+
+        record['account_id'] = parent_record['id']
+        return record

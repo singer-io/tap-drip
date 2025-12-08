@@ -6,10 +6,44 @@ from requests import session
 from requests.exceptions import Timeout, ConnectionError, ChunkedEncodingError
 from singer import get_logger, metrics
 
-from tap_drip.exceptions import ERROR_CODE_EXCEPTION_MAPPING, dripError, dripBackoffError
+from tap_drip.exceptions import (
+    ERROR_CODE_EXCEPTION_MAPPING,
+    DripError,
+    DripUnprocessableEntityError,
+    DripInternalServerError,
+    DripServiceUnavailableError,
+    DripRateLimitError
+)
 
 LOGGER = get_logger()
 REQUEST_TIMEOUT = 300
+
+def wait_if_retry_after(exception_info):
+    """
+    Handle rate limit backoff by using the retry_after value from DripRateLimitError.
+    Returns the number of seconds to wait.
+    """
+    exception = exception_info.get('exception') if isinstance(exception_info, dict) else exception_info
+
+    if exception and isinstance(exception, DripRateLimitError):
+        retry_after = exception.retry_after or 3600
+        LOGGER.info(
+            f"Rate limit hit. Waiting {retry_after} seconds. "
+            f"Limit: {exception.limit}, Remaining: {exception.remaining}"
+        )
+
+        if exception.response:
+            response = exception.response
+            headers = response.headers or {}
+            limit = headers.get('X-RateLimit-Limit')
+            remaining = headers.get('X-RateLimit-Remaining')
+            if limit and remaining:
+                LOGGER.info(f"Rate limit info - Limit: {limit}, Remaining: {remaining}")
+
+        return retry_after
+    else:
+        LOGGER.info("Rate limit hit. Waiting 3600 seconds (1 hour) as default.")
+        return 3600
 
 def raise_for_error(response: requests.Response) -> None:
     """Raises the associated response exception. Takes in a response object,
@@ -23,15 +57,26 @@ def raise_for_error(response: requests.Response) -> None:
     except Exception:
         response_json = {}
     if response.status_code not in [200, 201, 204]:
-        if response_json.get("error"):
-            message = f"HTTP-error-code: {response.status_code}, Error: {response_json.get('error')}"
+        errors = response_json.get("errors", [])
+        if errors and isinstance(errors, list) and len(errors) > 0:
+            error_messages = []
+            for error_obj in errors:
+                error_code = error_obj.get("code", "unknown_error")
+                error_message = error_obj.get("message", "Unknown Error")
+                attribute = error_obj.get("attribute")
+                if attribute:
+                    error_messages.append(f"[{error_code}] {attribute}: {error_message}")
+                else:
+                    error_messages.append(f"[{error_code}] {error_message}")
+            combined_errors = "; ".join(error_messages)
+            message = f"HTTP-error-code: {response.status_code}, Errors: {combined_errors}"
         else:
             error_message = ERROR_CODE_EXCEPTION_MAPPING.get(
                 response.status_code, {}
             ).get("message", "Unknown Error")
             message = f"HTTP-error-code: {response.status_code}, Error: {response_json.get('message', error_message)}"
         exc = ERROR_CODE_EXCEPTION_MAPPING.get(response.status_code, {}).get(
-            "raise_exception", dripError
+            "raise_exception", DripError
         )
         raise exc(message, response) from None
 
@@ -93,16 +138,27 @@ class Client:
         )
 
     @backoff.on_exception(
-        wait_gen=backoff.expo,
+        backoff.expo,
         exception=(
             ConnectionResetError,
             ConnectionError,
             ChunkedEncodingError,
             Timeout,
-            dripBackoffError
+            DripInternalServerError,
+            DripServiceUnavailableError,
+            DripUnprocessableEntityError
         ),
         max_tries=5,
         factor=2,
+    )
+    @backoff.on_exception(
+        backoff.runtime,
+        exception=(
+            DripRateLimitError,
+        ),
+        max_tries=5,
+        value=wait_if_retry_after,
+        jitter=None
     )
     def __make_request(
         self, method: str, endpoint: str, **kwargs

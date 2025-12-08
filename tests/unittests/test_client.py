@@ -4,7 +4,17 @@ from unittest.mock import patch
 from parameterized import parameterized
 from requests.exceptions import Timeout, ConnectionError, ChunkedEncodingError
 from tap_drip.client import Client
-from tap_drip.exceptions import *
+from tap_drip.exceptions import (
+    DripBadRequestError,
+    DripUnauthorizedError,
+    DripForbiddenError,
+    DripRateLimitError,
+    DripNotFoundError,
+    DripConflictError,
+    DripInternalServerError,
+    DripUnprocessableEntityError,
+    DripServiceUnavailableError
+)
 
 
 default_config = {
@@ -53,7 +63,7 @@ class TestClient(unittest.TestCase):
         """Set up the client with default configuration."""
         self.client = Client(default_config)
 
-    @parameterized.expand([    
+    @parameterized.expand([
         ["empty value", "", DEFAULT_REQUEST_TIMEOUT],
         ["string value", "12", 12.0],
         ["integer value", 10, 10.0],
@@ -71,7 +81,7 @@ class TestClient(unittest.TestCase):
     @patch("tap_drip.client.Client._Client__make_request")
     def test_client_get(self, mock_make_request):
         mock_make_request.return_value = {"data": "ok"}
-        result = self.client.get("https://api.example.com/resource")
+        result = self.client.make_request("GET", "https://api.example.com/resource")
         assert result == {"data": "ok"}
         mock_make_request.assert_called_once()
 
@@ -79,40 +89,38 @@ class TestClient(unittest.TestCase):
     @patch("tap_drip.client.Client._Client__make_request")
     def test_client_post(self, mock_make_request):
         mock_make_request.return_value = {"created": True}
-        result = self.client.post("https://api.example.com/resource", body={"key": "value"})
+        result = self.client.make_request("POST","https://api.example.com/resource", body={"key": "value"})
         assert result == {"created": True}
         mock_make_request.assert_called_once()
 
     @parameterized.expand([
-        ["400 error", 400, MockResponse(400), dripBadRequestError, "A validation exception has occurred."],
-        ["401 error", 401, MockResponse(401), dripUnauthorizedError, "The access token provided is expired, revoked, malformed or invalid for other reasons."],
-        ["403 error", 403, MockResponse(403), dripForbiddenError, "You are missing the following required scopes: read"],
-        ["404 error", 404, MockResponse(404), dripNotFoundError, "The resource you have specified cannot be found."],
-        ["409 error", 409, MockResponse(409), dripConflictError, "The API request cannot be completed because the requested operation would conflict with an existing item."],
+        ["400 error", 400, MockResponse(400), DripBadRequestError, "A validation exception has occurred."],
+        ["401 error", 401, MockResponse(401), DripUnauthorizedError, "The access token provided is expired, revoked, malformed or invalid for other reasons."],
+        ["403 error", 403, MockResponse(403), DripForbiddenError, "You are missing the following required scopes: read"],
+        ["404 error", 404, MockResponse(404), DripNotFoundError, "The resource you have specified cannot be found."],
+        ["409 error", 409, MockResponse(409), DripConflictError, "The API request cannot be completed because the requested operation would conflict with an existing item."],
     ])
     def test_make_request_http_failure_without_retry(self, test_name, error_code, mock_response, error, error_message):
-        
         with patch.object(self.client._session, "request", return_value=mock_response):
             with self.assertRaises(error) as e:
-                self.client._Client__make_request("GET", "https://api.example.com/resource")
+                self.client.make_request("GET", "https://api.example.com/resource")
 
         expected_error_message = (f"HTTP-error-code: {error_code}, Error: {error_message}")
         self.assertEqual(str(e.exception), expected_error_message)
 
     @parameterized.expand([
-        ["422 error", 422, MockResponse(422), dripUnprocessableEntityError, "The request content itself is not processable by the server."],
-        ["429 error", 429, MockResponse(429), dripRateLimitError, "The API rate limit for your organisation/application pairing has been exceeded."],
-        ["500 error", 500, MockResponse(500), dripInternalServerError, "The server encountered an unexpected condition which prevented it from fulfilling the request."],
-        ["501 error", 501, MockResponse(501), dripNotImplementedError, "The server does not support the functionality required to fulfill the request."],
-        ["502 error", 502, MockResponse(502), dripBadGatewayError, "Server received an invalid response."],
-        ["503 error", 503, MockResponse(503), dripServiceUnavailableError, "API service is currently unavailable."],
+        ["422 error", 422, MockResponse(422), DripUnprocessableEntityError, "The request content itself is not processable by the server."],
+        ["429 error", 429, MockResponse(429), DripRateLimitError,
+         "The API rate limit for your organisation/application pairing has been exceeded. (Retry after 3600 seconds.)"],
+        ["500 error", 500, MockResponse(500), DripInternalServerError,
+         "The server encountered an unexpected condition which prevented it from fulfilling the request."],
+        ["503 error", 503, MockResponse(503), DripServiceUnavailableError, "API service is currently unavailable."],
     ])
     @patch("time.sleep")
     def test_make_request_http_failure_with_retry(self, test_name, error_code, mock_response, error, error_message, mock_sleep):
-        
         with patch.object(self.client._session, "request", return_value=mock_response) as mock_request:
             with self.assertRaises(error) as e:
-                self.client._Client__make_request("GET", "https://api.example.com/resource")
+                self.client.make_request("GET", "https://api.example.com/resource")
 
             expected_error_message = (f"HTTP-error-code: {error_code}, Error: {error_message}")
             self.assertEqual(str(e.exception), expected_error_message)
@@ -126,9 +134,7 @@ class TestClient(unittest.TestCase):
     ])
     @patch("time.sleep")
     def test_make_request_other_failure_with_retry(self, test_name, error, mock_sleep):
-        
         with patch.object(self.client._session, "request", side_effect=error) as mock_request:
             with self.assertRaises(error) as e:
-                self.client._Client__make_request("GET", "https://api.example.com/resource")
-            
+                self.client.make_request("GET", "https://api.example.com/resource")
             self.assertEqual(mock_request.call_count, 5)
