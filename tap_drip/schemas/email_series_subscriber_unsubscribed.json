@@ -1,1 +1,256 @@
-{}
+{
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "id": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "campaign_id": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "account_id": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "href": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "status": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "email": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "first_name": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "last_name": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "address1": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "address2": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "city": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "state": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "zip": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "phone": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "country": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "time_zone": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "utc_offset": {
+            "type": [
+                "null",
+                "number"
+            ]
+        },
+        "visitor_uuid": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "custom_fields": {
+            "type": [
+                "null",
+                "object"
+            ],
+            "additionalProperties": true,
+            "properties": {
+                "address1": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "city": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "country": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "first_name": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "last_name": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "phone": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "state": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                }
+            }
+        },
+        "tags": {
+            "type": [
+                "null",
+                "array"
+            ],
+            "items": {
+                "type": [
+                    "null",
+                    "string"
+                ]
+            }
+        },
+        "created_at": {
+            "type": [
+                "null",
+                "string"
+            ],
+            "format": "date-time"
+        },
+        "ip_address": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "user_agent": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "lifetime_value": {
+            "type": [
+                "null",
+                "number"
+            ]
+        },
+        "original_referrer": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "landing_url": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "prospect": {
+            "type": [
+                "null",
+                "boolean"
+            ]
+        },
+        "base_lead_score": {
+            "type": [
+                "null",
+                "number"
+            ]
+        },
+        "eu_consent": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "sms_number": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "sms_consent": {
+            "type": [
+                "null",
+                "boolean"
+            ]
+        },
+        "lead_score": {
+            "type": [
+                "null",
+                "number"
+            ]
+        },
+        "user_id": {
+            "type": [
+                "null",
+                "string"
+            ]
+        }
+    }
+}

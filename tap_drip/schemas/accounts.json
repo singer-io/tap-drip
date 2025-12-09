@@ -1,1 +1,73 @@
-{}
+{
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "id": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "href": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "name": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "url": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "default_from_name": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "default_from_email": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "default_postal_address": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "primary_email": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "enable_third_party_cookies": {
+            "type": [
+                "null",
+                "boolean"
+            ]
+        },
+        "phone_number": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "created_at": {
+            "type": [
+                "null",
+                "string"
+            ],
+            "format": "date-time"
+        }
+    }
+}

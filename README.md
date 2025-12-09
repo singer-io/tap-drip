@@ -26,7 +26,7 @@ This tap:
 
     - [Forms](https://developer.drip.com/?shell#list-all-forms)
 
-    - [Peoples](https://developer.drip.com/?shell#list-all-subscribers)
+    - [People](https://developer.drip.com/?shell#list-all-subscribers)
 
     - [SingleEmailCampaigns](https://developer.drip.com/?shell#list-all-single-email-campaigns)
 
@@ -90,7 +90,7 @@ This tap:
 - Primary keys: ['id', 'account_id']
 - Replication strategy: FULL_TABLE
 
-**[peoples](https://developer.drip.com/?shell#list-all-subscribers)**
+**[people](https://developer.drip.com/?shell#list-all-subscribers)**
 - Data Key = subscribers
 - Primary keys: ['id', 'account_id']
 - Replication strategy: FULL_TABLE

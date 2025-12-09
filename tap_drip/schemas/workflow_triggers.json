@@ -1,1 +1,84 @@
-{}
+{
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "id": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "account_id": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "workflow_id": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "type": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "trigger_type": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "provider": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "properties": {
+            "type": [
+                "null",
+                "object"
+            ],
+            "additionalProperties": true,
+            "properties": {
+                "landing_page": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                }
+            }
+        },
+        "actions_required": {
+            "type": [
+                "null",
+                "array"
+            ],
+            "items": {
+                "type": [
+                    "null",
+                    "object"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                    "code": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    },
+                    "message": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    }
+                }
+            }
+        }
+    }
+}
