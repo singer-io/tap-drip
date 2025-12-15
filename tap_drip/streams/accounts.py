@@ -13,7 +13,7 @@ class Accounts(FullTableStream):
         'event_actions',
         'forms',
         'single_email_campaigns',
-        'peoples',
+        'people',
         'tags',
         'workflows'
     ]
