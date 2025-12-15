@@ -57,7 +57,7 @@ This tap:
 
 **[custom_field_identifiers](https://developer.drip.com/?shell#list-all-custom-field-identifiers-used-in-an-account)**
 - Data Key = custom_field_identifiers
-- Primary keys: ['id', 'account_id']
+- Primary keys: ['custom_field_id', 'account_id']
 - Replication strategy: FULL_TABLE
 
 **[email_series_campaigns](https://developer.drip.com/?shell#list-all-email-series-campaigns)**
@@ -102,7 +102,7 @@ This tap:
 
 **[tags](https://developer.drip.com/?shell#list-all-tags-used-in-an-account)**
 - Data Key = tags
-- Primary keys: ['tag_name', 'account_id']
+- Primary keys: ['tag_id', 'account_id']
 - Replication strategy: FULL_TABLE
 
 **[users](https://developer.drip.com/?shell#users)**

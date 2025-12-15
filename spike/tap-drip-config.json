@@ -31,7 +31,7 @@
                 "event_actions",
                 "forms",
                 "single_email_campaigns",
-                "peoples",
+                "people",
                 "tags",
                 "workflows"
             ],
@@ -54,7 +54,7 @@
         {
             "name": "custom_field_identifiers",
             "key_properties": [
-                "id",
+                "custom_field_id",
                 "account_id"
             ],
             "replication_method": "FULL_TABLE",
@@ -187,7 +187,7 @@
         {
             "name": "tags",
             "key_properties": [
-                "tag_name",
+                "tag_id",
                 "account_id"
             ],
             "replication_method": "FULL_TABLE",
