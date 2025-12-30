@@ -242,7 +242,7 @@
         }
     ],
     "tap_tester_creds": {
-        "api_token": "API_TOKEN"
+        "api_token": "TAP_DRIP_API_TOKEN"
     },
     "author": "Stitch",
     "third_party_dependencies": [

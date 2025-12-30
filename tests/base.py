@@ -1,13 +1,5 @@
-import copy
 import os
-import unittest
-from datetime import datetime as dt
-from datetime import timedelta
 
-import dateutil.parser
-import pytz
-from tap_tester import connections, menagerie, runner
-from tap_tester.logger import LOGGER
 from tap_tester.base_suite_tests.base_case import BaseCase
 
 
@@ -39,14 +31,14 @@ class dripBaseTest(BaseCase):
                 cls.REPLICATION_METHOD: cls.FULL_TABLE,
                 cls.REPLICATION_KEYS: set(),
                 cls.OBEYS_START_DATE: False,
-                cls.API_LIMIT: 100,
+                cls.API_LIMIT: 1,
             },
             "conversions": {
                 cls.PRIMARY_KEYS: { "id", "account_id" },
                 cls.REPLICATION_METHOD: cls.FULL_TABLE,
                 cls.REPLICATION_KEYS: set(),
                 cls.OBEYS_START_DATE: False,
-                cls.API_LIMIT: 100,
+                cls.API_LIMIT: 1,
                 cls.PARENT_TAP_STREAM_ID: "accounts"
             },
             "custom_field_identifiers": {
@@ -54,7 +46,7 @@ class dripBaseTest(BaseCase):
                 cls.REPLICATION_METHOD: cls.FULL_TABLE,
                 cls.REPLICATION_KEYS: set(),
                 cls.OBEYS_START_DATE: False,
-                cls.API_LIMIT: 100,
+                cls.API_LIMIT: 10,
                 cls.PARENT_TAP_STREAM_ID: "accounts"
             },
             "email_series_campaigns": {
@@ -62,7 +54,7 @@ class dripBaseTest(BaseCase):
                 cls.REPLICATION_METHOD: cls.FULL_TABLE,
                 cls.REPLICATION_KEYS: set(),
                 cls.OBEYS_START_DATE: False,
-                cls.API_LIMIT: 100,
+                cls.API_LIMIT: 1,
                 cls.PARENT_TAP_STREAM_ID: "accounts"
             },
             "email_series_subscriber_active": {
@@ -70,7 +62,7 @@ class dripBaseTest(BaseCase):
                 cls.REPLICATION_METHOD: cls.FULL_TABLE,
                 cls.REPLICATION_KEYS: set(),
                 cls.OBEYS_START_DATE: False,
-                cls.API_LIMIT: 100,
+                cls.API_LIMIT: 10,
                 cls.PARENT_TAP_STREAM_ID: "email_series_campaigns"
             },
             "email_series_subscriber_removed": {
@@ -78,7 +70,7 @@ class dripBaseTest(BaseCase):
                 cls.REPLICATION_METHOD: cls.FULL_TABLE,
                 cls.REPLICATION_KEYS: set(),
                 cls.OBEYS_START_DATE: False,
-                cls.API_LIMIT: 100,
+                cls.API_LIMIT: 1,
                 cls.PARENT_TAP_STREAM_ID: "email_series_campaigns"
             },
             "email_series_subscriber_unsubscribed": {
@@ -86,7 +78,7 @@ class dripBaseTest(BaseCase):
                 cls.REPLICATION_METHOD: cls.FULL_TABLE,
                 cls.REPLICATION_KEYS: set(),
                 cls.OBEYS_START_DATE: False,
-                cls.API_LIMIT: 100,
+                cls.API_LIMIT: 1,
                 cls.PARENT_TAP_STREAM_ID: "email_series_campaigns"
             },
             "event_actions": {
@@ -94,7 +86,7 @@ class dripBaseTest(BaseCase):
                 cls.REPLICATION_METHOD: cls.FULL_TABLE,
                 cls.REPLICATION_KEYS: set(),
                 cls.OBEYS_START_DATE: False,
-                cls.API_LIMIT: 100,
+                cls.API_LIMIT: 1,
                 cls.PARENT_TAP_STREAM_ID: "accounts"
             },
             "forms": {
@@ -102,7 +94,7 @@ class dripBaseTest(BaseCase):
                 cls.REPLICATION_METHOD: cls.FULL_TABLE,
                 cls.REPLICATION_KEYS: set(),
                 cls.OBEYS_START_DATE: False,
-                cls.API_LIMIT: 100,
+                cls.API_LIMIT: 1,
                 cls.PARENT_TAP_STREAM_ID: "accounts"
             },
             "single_email_campaigns": {
@@ -110,7 +102,7 @@ class dripBaseTest(BaseCase):
                 cls.REPLICATION_METHOD: cls.FULL_TABLE,
                 cls.REPLICATION_KEYS: set(),
                 cls.OBEYS_START_DATE: False,
-                cls.API_LIMIT: 100,
+                cls.API_LIMIT: 1,
                 cls.PARENT_TAP_STREAM_ID: "accounts"
             },
             "people": {
@@ -118,7 +110,7 @@ class dripBaseTest(BaseCase):
                 cls.REPLICATION_METHOD: cls.FULL_TABLE,
                 cls.REPLICATION_KEYS: set(),
                 cls.OBEYS_START_DATE: False,
-                cls.API_LIMIT: 100,
+                cls.API_LIMIT: 10,
                 cls.PARENT_TAP_STREAM_ID: "accounts"
             },
             "tags": {
@@ -126,7 +118,7 @@ class dripBaseTest(BaseCase):
                 cls.REPLICATION_METHOD: cls.FULL_TABLE,
                 cls.REPLICATION_KEYS: set(),
                 cls.OBEYS_START_DATE: False,
-                cls.API_LIMIT: 100,
+                cls.API_LIMIT: 1,
                 cls.PARENT_TAP_STREAM_ID: "accounts"
             },
             "users": {
@@ -134,14 +126,14 @@ class dripBaseTest(BaseCase):
                 cls.REPLICATION_METHOD: cls.FULL_TABLE,
                 cls.REPLICATION_KEYS: set(),
                 cls.OBEYS_START_DATE: False,
-                cls.API_LIMIT: 100,
+                cls.API_LIMIT: 1,
             },
             "workflows": {
                 cls.PRIMARY_KEYS: { "id", "account_id" },
                 cls.REPLICATION_METHOD: cls.FULL_TABLE,
                 cls.REPLICATION_KEYS: set(),
                 cls.OBEYS_START_DATE: False,
-                cls.API_LIMIT: 100,
+                cls.API_LIMIT: 1,
                 cls.PARENT_TAP_STREAM_ID: "accounts"
             },
             "workflow_triggers": {
@@ -149,7 +141,7 @@ class dripBaseTest(BaseCase):
                 cls.REPLICATION_METHOD: cls.FULL_TABLE,
                 cls.REPLICATION_KEYS: set(),
                 cls.OBEYS_START_DATE: False,
-                cls.API_LIMIT: 100,
+                cls.API_LIMIT: 1,
                 cls.PARENT_TAP_STREAM_ID: "workflows"
             }
         }
@@ -158,7 +150,7 @@ class dripBaseTest(BaseCase):
     def get_credentials():
         """Authentication information for the test account."""
         credentials_dict = {}
-        creds = {'api_token': 'API_TOKEN'}
+        creds = {'api_token': 'TAP_DRIP_API_TOKEN'}
 
         for cred in creds:
             credentials_dict[cred] = os.getenv(creds[cred])

@@ -8,7 +8,7 @@ class dripDiscoveryTest(DiscoveryTest, dripBaseTest):
     """Test tap discovery mode and metadata conforms to standards."""
     orphan_streams = {
         "accounts",
-        "users",
+        "users"
     }
 
     @staticmethod

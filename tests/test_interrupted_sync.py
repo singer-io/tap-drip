@@ -1,23 +1,21 @@
 
+import unittest
 from base import dripBaseTest
-from tap_tester.base_suite_tests.interrupted_sync_test import InterruptedSyncTest
 
 
-class dripInterruptedSyncTest(InterruptedSyncTest, dripBaseTest):
-    """Test tap sets a bookmark and respects it for the next sync of a
-    stream."""
+class dripInterruptedSyncTest(dripBaseTest):
+    """Test tap recovers from an interrupted sync.
+
+    NOTE: This test is skipped because all streams in tap-drip use FULL_TABLE
+    replication method. Interrupted sync tests rely on bookmarks which only
+    apply to INCREMENTAL streams.
+    """
 
     @staticmethod
     def name():
         return "tap_tester_drip_interrupted_sync_test"
 
-    def streams_to_test(self):
-        return self.expected_stream_names()
-
-
-    def manipulate_state(self):
-        return {
-            "currently_syncing": "accounts",
-            "bookmarks": {
-        }
-    }
+    @unittest.skip("All streams use FULL_TABLE replication - interrupted sync test not applicable")
+    def test_run(self):
+        """Skipped - no incremental streams in tap-drip"""
+        pass

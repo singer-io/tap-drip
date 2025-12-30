@@ -15,7 +15,6 @@ class dripAutomaticFields(MinimumSelectionTest, dripBaseTest):
     def streams_to_test(self):
         # Due to test data not present excluding streams
         streams_to_exclude = {
-            "email_series_subscriber_unsubscribed",
             "conversions"
         }
         return self.expected_stream_names().difference(streams_to_exclude)
