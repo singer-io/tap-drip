@@ -163,7 +163,7 @@ class TestClient(unittest.TestCase):
 
         with patch.object(self.client._session, "request", return_value=mock_response) as mock_request:
             with self.assertRaises(DripBackoffError) as e:
-                self.client._Client__make_request("GET", "https://api.example.com/resource")
+                self.client.make_request("GET", "https://api.example.com/resource")
 
             expected_error_message = f"HTTP-error-code: {error_code}, Error: {error_message}"
             self.assertEqual(str(e.exception), expected_error_message)

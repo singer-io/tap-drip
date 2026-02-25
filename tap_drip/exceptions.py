@@ -73,7 +73,7 @@ class DripInternalServerError(DripBackoffError):
     """class representing 500 status code."""
     pass
 
-class DripNotImplementedError(DripBackoffError):
+class DripNotImplementedError(DripError):
     """class representing 501 status code."""
     pass
 

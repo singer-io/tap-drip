@@ -10,7 +10,6 @@ from tap_drip.exceptions import (
     ERROR_CODE_EXCEPTION_MAPPING,
     DripBackoffError,
     DripError,
-    DripNotImplementedError,
     DripRateLimitError
 )
 
@@ -155,7 +154,7 @@ class Client:
         ),
         max_tries=5,
         factor=2,
-        giveup=lambda e: isinstance(e, (DripNotImplementedError, DripRateLimitError)),
+        giveup=lambda e: isinstance(e, DripRateLimitError),
     )
     @backoff.on_exception(
         backoff.runtime,
