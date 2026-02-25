@@ -32,7 +32,7 @@ class DripConflictError(DripError):
     """class representing 409 status code."""
     pass
 
-class DripUnprocessableEntityError(DripBackoffError):
+class DripUnprocessableEntityError(DripError):
     """class representing 422 status code."""
     pass
 
@@ -85,6 +85,10 @@ class DripServiceUnavailableError(DripBackoffError):
     """class representing 503 status code."""
     pass
 
+class DripGatewayTimeoutError(DripBackoffError):
+    """class representing 504 status code."""
+    pass
+
 ERROR_CODE_EXCEPTION_MAPPING = {
     400: {
         "raise_exception": DripBadRequestError,
@@ -130,5 +134,9 @@ ERROR_CODE_EXCEPTION_MAPPING = {
     503: {
         "raise_exception": DripServiceUnavailableError,
         "message": "API service is currently unavailable."
+    },
+    504: {
+        "raise_exception": DripGatewayTimeoutError,
+        "message": "The server did not receive a timely response from an upstream server."
     }
 }
