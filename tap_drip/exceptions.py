@@ -69,26 +69,6 @@ class DripRateLimitError(DripBackoffError):
         full_message = f"{base_msg} {retry_info}"
         super().__init__(full_message, response=response)
 
-class DripInternalServerError(DripBackoffError):
-    """class representing 500 status code."""
-    pass
-
-class DripNotImplementedError(DripError):
-    """class representing 501 status code."""
-    pass
-
-class DripBadGatewayError(DripBackoffError):
-    """class representing 502 status code."""
-    pass
-
-class DripServiceUnavailableError(DripBackoffError):
-    """class representing 503 status code."""
-    pass
-
-class DripGatewayTimeoutError(DripBackoffError):
-    """class representing 504 status code."""
-    pass
-
 ERROR_CODE_EXCEPTION_MAPPING = {
     400: {
         "raise_exception": DripBadRequestError,
@@ -117,26 +97,5 @@ ERROR_CODE_EXCEPTION_MAPPING = {
     429: {
         "raise_exception": DripRateLimitError,
         "message": "The API rate limit for your organisation/application pairing has been exceeded."
-    },
-    500: {
-        "raise_exception": DripInternalServerError,
-        "message": "The server encountered an unexpected condition which prevented" \
-            " it from fulfilling the request."
-    },
-    501: {
-        "raise_exception": DripNotImplementedError,
-        "message": "The server does not support the functionality required to fulfill the request."
-    },
-    502: {
-        "raise_exception": DripBadGatewayError,
-        "message": "Server received an invalid response."
-    },
-    503: {
-        "raise_exception": DripServiceUnavailableError,
-        "message": "API service is currently unavailable."
-    },
-    504: {
-        "raise_exception": DripGatewayTimeoutError,
-        "message": "The server did not receive a timely response from an upstream server."
     }
 }
