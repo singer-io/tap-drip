@@ -17,6 +17,7 @@ class dripAllFields(AllFieldsTest, dripBaseTest):
     def streams_to_test(self):
         # Due to test data not present excluding streams
         streams_to_exclude = {
-            "conversions"
+            'conversions',
+            'email_series_subscriber_unsubscribed',
         }
         return self.expected_stream_names().difference(streams_to_exclude)
