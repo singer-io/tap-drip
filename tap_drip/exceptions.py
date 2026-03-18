@@ -1,3 +1,8 @@
+from singer import get_logger
+
+LOGGER = get_logger()
+
+
 class DripError(Exception):
     """class representing Generic Http error."""
 
@@ -32,7 +37,7 @@ class DripConflictError(DripError):
     """class representing 409 status code."""
     pass
 
-class DripUnprocessableEntityError(DripBackoffError):
+class DripUnprocessableEntityError(DripError):
     """class representing 422 status code."""
     pass
 
@@ -56,8 +61,15 @@ class DripRateLimitError(DripBackoffError):
                 try:
                     self.retry_after = int(retry_after_header)
                 except (ValueError, TypeError):
+                    LOGGER.warning(
+                        "Could not parse Retry-After header value '%s'. Defaulting to 3600 seconds.",
+                        retry_after_header
+                    )
                     self.retry_after = 3600
             else:
+                LOGGER.warning(
+                    "Retry-After header not found in rate limit response. Defaulting to 3600 seconds."
+                )
                 self.retry_after = 3600
 
         base_msg = message or "Drip API rate limit exhausted"
@@ -68,22 +80,6 @@ class DripRateLimitError(DripBackoffError):
         )
         full_message = f"{base_msg} {retry_info}"
         super().__init__(full_message, response=response)
-
-class DripInternalServerError(DripBackoffError):
-    """class representing 500 status code."""
-    pass
-
-class DripNotImplementedError(DripBackoffError):
-    """class representing 501 status code."""
-    pass
-
-class DripBadGatewayError(DripBackoffError):
-    """class representing 502 status code."""
-    pass
-
-class DripServiceUnavailableError(DripBackoffError):
-    """class representing 503 status code."""
-    pass
 
 ERROR_CODE_EXCEPTION_MAPPING = {
     400: {
@@ -113,22 +109,5 @@ ERROR_CODE_EXCEPTION_MAPPING = {
     429: {
         "raise_exception": DripRateLimitError,
         "message": "The API rate limit for your organisation/application pairing has been exceeded."
-    },
-    500: {
-        "raise_exception": DripInternalServerError,
-        "message": "The server encountered an unexpected condition which prevented" \
-            " it from fulfilling the request."
-    },
-    501: {
-        "raise_exception": DripNotImplementedError,
-        "message": "The server does not support the functionality required to fulfill the request."
-    },
-    502: {
-        "raise_exception": DripBadGatewayError,
-        "message": "Server received an invalid response."
-    },
-    503: {
-        "raise_exception": DripServiceUnavailableError,
-        "message": "API service is currently unavailable."
     }
 }

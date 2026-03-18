@@ -13,9 +13,14 @@ class dripPaginationTest(PaginationTest, dripBaseTest):
     def streams_to_test(self):
         # Exclude streams that don't have enough data to test pagination
         streams_to_exclude = {
-            "conversions",
-            "accounts",
-            "users",
-            "email_series_subscriber_removed"
+            'accounts',
+            'conversions',
+            'email_series_subscriber_active',
+            'email_series_subscriber_removed',
+            'email_series_subscriber_unsubscribed',
+            'event_actions',
+            'forms',
+            'people',
+            'users',
         }
         return self.expected_stream_names().difference(streams_to_exclude)

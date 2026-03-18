@@ -8,10 +8,8 @@ from singer import get_logger, metrics
 
 from tap_drip.exceptions import (
     ERROR_CODE_EXCEPTION_MAPPING,
+    DripBackoffError,
     DripError,
-    DripUnprocessableEntityError,
-    DripInternalServerError,
-    DripServiceUnavailableError,
     DripRateLimitError
 )
 
@@ -75,10 +73,17 @@ def raise_for_error(response: requests.Response) -> None:
                 response.status_code, {}
             ).get("message", "Unknown Error")
             message = f"HTTP-error-code: {response.status_code}, Error: {response_json.get('message', error_message)}"
+
         exc = ERROR_CODE_EXCEPTION_MAPPING.get(response.status_code, {}).get(
-            "raise_exception", DripError
-        )
+                "raise_exception", DripError
+            )
+
+        # For 5xx errors, use backoff exception if not specifically mapped
+        if 500 <= response.status_code < 600 and response.status_code not in ERROR_CODE_EXCEPTION_MAPPING.keys():
+            exc = DripBackoffError
+
         raise exc(message, response) from None
+
 
 class Client:
     """
@@ -144,12 +149,11 @@ class Client:
             ConnectionError,
             ChunkedEncodingError,
             Timeout,
-            DripInternalServerError,
-            DripServiceUnavailableError,
-            DripUnprocessableEntityError
+            DripBackoffError,
         ),
         max_tries=5,
         factor=2,
+        giveup=lambda e: isinstance(e, DripRateLimitError),
     )
     @backoff.on_exception(
         backoff.runtime,
