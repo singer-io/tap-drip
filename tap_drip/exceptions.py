@@ -1,3 +1,8 @@
+from singer import get_logger
+
+LOGGER = get_logger()
+
+
 class DripError(Exception):
     """class representing Generic Http error."""
 
@@ -56,8 +61,15 @@ class DripRateLimitError(DripBackoffError):
                 try:
                     self.retry_after = int(retry_after_header)
                 except (ValueError, TypeError):
+                    LOGGER.warning(
+                        "Could not parse Retry-After header value '%s'. Defaulting to 3600 seconds.",
+                        retry_after_header
+                    )
                     self.retry_after = 3600
             else:
+                LOGGER.warning(
+                    "Retry-After header not found in rate limit response. Defaulting to 3600 seconds."
+                )
                 self.retry_after = 3600
 
         base_msg = message or "Drip API rate limit exhausted"
