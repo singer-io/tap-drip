@@ -1,7 +1,4 @@
-
-
 from setuptools import setup, find_packages
-
 
 setup(name="tap-drip",
       version="0.0.1",
