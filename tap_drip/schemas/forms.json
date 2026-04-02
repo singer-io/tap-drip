@@ -1,0 +1,184 @@
+{
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "id": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "account_id": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "href": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "headline": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "description": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "button_text": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "confirmation_heading": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "confirmation_text": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "send_ga_event": {
+            "type": [
+                "null",
+                "boolean"
+            ]
+        },
+        "seconds_before_popup": {
+            "type": [
+                "null",
+                "number"
+            ]
+        },
+        "days_between_popup": {
+            "type": [
+                "null",
+                "number"
+            ]
+        },
+        "days_between_popup_after_close": {
+            "type": [
+                "null",
+                "number"
+            ]
+        },
+        "orientation": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "opacity": {
+            "type": [
+                "null",
+                "number"
+            ]
+        },
+        "show_labels": {
+            "type": [
+                "null",
+                "boolean"
+            ]
+        },
+        "primary_color": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "secondary_color": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "is_widget_enabled": {
+            "type": [
+                "null",
+                "boolean"
+            ]
+        },
+        "whitelist": {
+            "type": [
+                "null",
+                "array"
+            ],
+            "items": {
+                "type": [
+                    "null",
+                    "string"
+                ]
+            }
+        },
+        "blacklist": {
+            "type": [
+                "null",
+                "array"
+            ],
+            "items": {
+                "type": [
+                    "null",
+                    "string"
+                ]
+            }
+        },
+        "is_whitelist_enabled": {
+            "type": [
+                "null",
+                "boolean"
+            ]
+        },
+        "is_blacklist_enabled": {
+            "type": [
+                "null",
+                "boolean"
+            ]
+        },
+        "hide_on_mobile": {
+            "type": [
+                "null",
+                "boolean"
+            ]
+        },
+        "is_embeddable": {
+            "type": [
+                "null",
+                "boolean"
+            ]
+        },
+        "created_at": {
+            "type": [
+                "null",
+                "string"
+            ],
+            "format": "date-time"
+        },
+        "links": {
+            "type": [
+                "null",
+                "object"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "campaign": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,166 @@
+{
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "id": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "account_id": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "href": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "name": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "status": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "from_name": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "from_email": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "postal_address": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "minutes_from_midnight": {
+            "type": [
+                "null",
+                "number"
+            ]
+        },
+        "localize_sending_time": {
+            "type": [
+                "null",
+                "boolean"
+            ]
+        },
+        "days_of_the_week_mask": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "start_immediately": {
+            "type": [
+                "null",
+                "boolean"
+            ]
+        },
+        "double_optin": {
+            "type": [
+                "null",
+                "boolean"
+            ]
+        },
+        "confirmation_url": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "send_to_confirmation_page": {
+            "type": [
+                "null",
+                "boolean"
+            ]
+        },
+        "use_custom_confirmation_page": {
+            "type": [
+                "null",
+                "boolean"
+            ]
+        },
+        "notify_subscribe_email": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "notify_unsubscribe_email": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "bcc": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "email_count": {
+            "type": [
+                "null",
+                "number"
+            ]
+        },
+        "active_subscriber_count": {
+            "type": [
+                "null",
+                "number"
+            ]
+        },
+        "unsubscribed_subscriber_count": {
+            "type": [
+                "null",
+                "number"
+            ]
+        },
+        "created_at": {
+            "type": [
+                "null",
+                "string"
+            ],
+            "format": "date-time"
+        },
+        "links": {
+            "type": [
+                "null",
+                "object"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "forms": {
+                    "type": [
+                        "null",
+                        "array"
+                    ],
+                    "items": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    }
+                }
+            }
+        }
+    }
+}
