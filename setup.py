@@ -11,8 +11,12 @@ setup(name="tap-drip",
         "singer-python==6.8.0",
         "requests==2.32.5",
         "backoff==2.2.1",
-        "parameterized"
       ],
+      extras_require={
+        "dev": [
+          "parameterized",
+        ],
+      },
       entry_points="""
           [console_scripts]
           tap-drip=tap_drip:main
